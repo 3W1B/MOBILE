@@ -17,7 +17,12 @@ class ApiService {
     );
 
     if (response.statusCode == 200) {
-      return jsonDecode(response.body) as Map<String, dynamic>;
+      final data = jsonDecode(response.body) as Map<String, dynamic>;
+      if (data["status"] == "success") {
+        return data;
+      } else {
+        throw Exception(data["message"]);
+      }
     } else {
       throw Exception('Failed to load data');
     }
