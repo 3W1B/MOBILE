@@ -3,8 +3,8 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:radon_app/models/logger.dart';
 
-class GoogleMapsWidget extends HookWidget {
-  const GoogleMapsWidget({super.key, required this.logger});
+class MapWidget extends HookWidget {
+  const MapWidget({super.key, required this.logger});
 
   final Logger? logger;
 

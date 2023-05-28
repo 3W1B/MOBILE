@@ -2,25 +2,16 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter/material.dart';
 import 'package:radon_app/models/logger.dart';
 import 'package:radon_app/models/user.dart';
-import 'package:radon_app/widget/devices.dart';
-import 'package:radon_app/widget/g_maps.dart';
-import 'package:radon_app/widget/stats.dart';
+import 'package:radon_app/pages/home/devices_widget.dart';
+import 'package:radon_app/pages/home/map_widget.dart';
+import 'package:radon_app/pages/home/stats_widget.dart';
 
-class FooPage extends StatefulHookWidget {
-  const FooPage({super.key, required this.user});
+class HomePage extends HookWidget {
+  const HomePage({super.key, required this.user});
 
   final User user;
 
-  @override
-  // ignore: library_private_types_in_public_api
-  _FooPageState createState() => _FooPageState();
-}
-
-class _FooPageState extends State<FooPage> {
-  int _selectedIndex = 0;
-
-  // SHOULD BE CHANGED TO A REAL LOGGER
-  static get logger => Logger.fromJson({
+  static get testLogger => Logger.fromJson({
           "id": "asd",
           "password": "asd",
           "locations": [
@@ -58,25 +49,19 @@ class _FooPageState extends State<FooPage> {
           ],
   });
 
-
-
-  final List<Widget> _widgetOptions = <Widget>[
-    StatsWidget(logger: logger),
-    GoogleMapsWidget(logger: logger),
-    DevisesWidget(logger: logger),
-  ];
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
+    final index = useState(0);
+
+    final widgets = [
+      StatsWidget(logger: testLogger),
+      MapWidget(logger: testLogger),
+      DevicesWidget(logger: testLogger),
+    ];
+
     return Scaffold(
       body: Center(
-        child: _widgetOptions.elementAt(_selectedIndex),
+        child: widgets.elementAt(index.value),
       ),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
@@ -93,9 +78,11 @@ class _FooPageState extends State<FooPage> {
             label: 'Devices',
           ),
         ],
-        currentIndex: _selectedIndex,
+        currentIndex: index.value,
         selectedItemColor: Colors.green[800],
-        onTap: _onItemTapped,
+        onTap: (int i) {
+          index.value = i;
+        },
       ),
     );
   }

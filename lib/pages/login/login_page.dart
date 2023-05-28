@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:radon_app/pages/foo_page.dart';
-import 'package:radon_app/pages/register_page.dart';
+import 'package:radon_app/pages/home/home_page.dart';
+import 'package:radon_app/pages/login/register_page.dart';
 import 'package:radon_app/repositories/user_repository.dart';
 
 class LoginPage extends StatelessWidget {
@@ -33,7 +33,7 @@ class LoginPage extends StatelessWidget {
                     );
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (_) => FooPage(user: user)),
+                      MaterialPageRoute(builder: (_) => HomePage(user: user)),
                     );
                   },
                   child: Text("Login")),
