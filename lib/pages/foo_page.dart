@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter/material.dart';
 import 'package:radon_app/models/logger.dart';
@@ -22,8 +20,45 @@ class _FooPageState extends State<FooPage> {
   int _selectedIndex = 0;
 
   // SHOULD BE CHANGED TO A REAL LOGGER
-  static get logger => Logger.fromJson(jsonDecode(
-      '{"id": 1, "name": "test", "locations": [{"id": 1, "latitude": 55.000065, "longitude": 9.4337785, "loggerId": 1, "createdAt": "2021-10-17T20:00:00.000Z", "updatedAt": "2021-10-17T20:00:00.000Z"}], "createdAt": "2021-10-17T20:00:00.000Z"}'));
+  static get logger => Logger.fromJson({
+          "id": "asd",
+          "password": "asd",
+          "locations": [
+            {
+              "id": 1,
+              "loggerId": "asd",
+              "latitude": 55.000065,
+              "longitude": 9.4337785,
+            }
+          ],
+          "logs": [
+            {
+              "id": 1,
+              "loggerId": "asd",
+              "timestamp": "2021-10-17T20:00:00.000Z",
+              "logInsides": [
+                {
+                  "id": 1,
+                  "logId": 1,
+                  "temperature": 20,
+                  "humidity": 20,
+                  "radonLta": 20,
+                  "radonSta": 20,
+                },
+              ],
+              "logOutsides": [
+                {
+                  "id": 1,
+                  "logId": 1,
+                  "temperature": 20,
+                  "humidity": 20,
+                }
+              ]
+            },
+          ],
+  });
+
+
 
   final List<Widget> _widgetOptions = <Widget>[
     StatsWidget(logger: logger),
