@@ -5,23 +5,22 @@ import 'package:uuid/uuid.dart';
 
 void main() {
   group('User Repository', () {
-    final email = const Uuid().v4();
-    final phone = const Uuid().v4();
+    final uuid = const Uuid().v4();
 
     int userId = 0;
 
     test("Test should register a user", () async {
       UserRepository userRepository = UserRepository();
       final user = await userRepository.register(
-          email, 'testpassword', 'testfirst', 'testlast', phone);
-      expect(user.email, email);
+          uuid, 'testpassword', 'testfirst', 'testlast', uuid);
+      expect(user.email, uuid);
       userId = user.id;
     });
 
     test("Test should login a user", () async {
       UserRepository userRepository = UserRepository();
-      final user = await userRepository.login(email, 'testpassword');
-      expect(user.email, email);
+      final user = await userRepository.login(uuid, 'testpassword');
+      expect(user.email, uuid);
     });
 
     // we also need to test the userlogger repository here, otherwise it's hard
