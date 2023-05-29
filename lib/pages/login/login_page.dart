@@ -51,7 +51,9 @@ class LoginPage extends StatelessWidget {
                     final loggers = await fetchLoggers(user.userLoggers);
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (_) => DevicePage(user: user, loggers: loggers)),
+                      MaterialPageRoute(
+                          builder: (_) =>
+                              DevicePage(user: user, loggers: loggers)),
                     );
                   },
                   child: Text("Login")),

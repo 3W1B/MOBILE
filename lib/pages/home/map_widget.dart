@@ -6,13 +6,10 @@ import 'package:radon_app/models/logger.dart';
 class MapWidget extends HookWidget {
   const MapWidget({super.key, required this.logger});
 
-  final Logger? logger;
+  final Logger logger;
 
   @override
   Widget build(BuildContext context) {
-    if (logger == null) {
-      return const Center(child: Text("No logger found"));
-    }
     return GoogleMap(
       mapType: MapType.hybrid,
       initialCameraPosition: CameraPosition(
