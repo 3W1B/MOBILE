@@ -4,10 +4,9 @@ import 'package:radon_app/services/api_service.dart';
 class LoggerRepository {
   final ApiService _apiService = ApiService();
 
-  Future<Logger> read(String id, String password) async {
+  Future<Logger> read(String id) async {
     final body = {
       'id': id,
-      'password': password,
     };
 
     final response = await _apiService.post('logger/read', body);
