@@ -13,51 +13,54 @@ class RegisterPage extends StatelessWidget {
       final firstNameController = useTextEditingController();
       final lastNameController = useTextEditingController();
       final phoneController = useTextEditingController();
-      return Material(
-          child: Column(
-        children: [
-          Text("First Name"),
-          TextField(
-            controller: firstNameController,
+      return Scaffold(
+          appBar: AppBar(
+            title: const Text('Register'),
           ),
-          Text("Last Name"),
-          TextField(
-            controller: lastNameController,
-          ),
-          Text("Email"),
-          TextField(
-            controller: emailController,
-          ),
-          Text("Phone"),
-          TextField(
-            controller: phoneController,
-          ),
-          Text("Password"),
-          TextField(
-            controller: passwordController,
-          ),
-          ElevatedButton(
-              onPressed: () async {
-                final userRepository = UserRepository();
-                await userRepository.register(
-                    emailController.text,
-                    passwordController.text,
-                    firstNameController.text,
-                    lastNameController.text,
-                    phoneController.text);
+          body: Column(
+            children: [
+              Text("First Name"),
+              TextField(
+                controller: firstNameController,
+              ),
+              Text("Last Name"),
+              TextField(
+                controller: lastNameController,
+              ),
+              Text("Email"),
+              TextField(
+                controller: emailController,
+              ),
+              Text("Phone"),
+              TextField(
+                controller: phoneController,
+              ),
+              Text("Password"),
+              TextField(
+                controller: passwordController,
+              ),
+              ElevatedButton(
+                  onPressed: () async {
+                    final userRepository = UserRepository();
+                    await userRepository.register(
+                        emailController.text,
+                        passwordController.text,
+                        firstNameController.text,
+                        lastNameController.text,
+                        phoneController.text);
 
-                Navigator.pop(context);
-              },
-              child: Text("Register")),
-          GestureDetector(
-            child: Text("Already have an account?"),
-            onTap: () {
-              // go back to login page
-              Navigator.pop(context);
-            },
-          ),
-        ],
-      ));
+                    Navigator.pop(context);
+                  },
+                  child: Text("Register")),
+              GestureDetector(
+                child: Text("Already have an account?"),
+                onTap: () {
+                  // go back to login page
+                  Navigator.pop(context);
+                },
+              ),
+            ],
+          ));
     });
   }
 }

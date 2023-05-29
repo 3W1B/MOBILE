@@ -13,32 +13,25 @@ class MapWidget extends HookWidget {
     if (logger == null) {
       return const Center(child: Text("No logger found"));
     }
-    return Scaffold(
-      body: GoogleMap(
-          mapType: MapType.hybrid,
-          initialCameraPosition: CameraPosition(
-              target: LatLng(
-                  logger!.locations[logger!.locations.length - 1].latitude
-                      .toDouble(),
-                  logger!.locations[logger!.locations.length - 1].longitude
-                      .toDouble()),
-              zoom: 16.5),
-          markers: <Marker>{
-            Marker(
-              markerId: const MarkerId('RadonLogger'),
-              position: LatLng(
-                  logger!.locations[logger!.locations.length - 1].latitude
-                      .toDouble(),
-                  logger!.locations[logger!.locations.length - 1].longitude
-                      .toDouble()),
-              infoWindow: InfoWindow(
-                title: 'RadonLogger',
-                snippet:
-                    'Current Location:\n${logger!.locations[logger!.locations.length - 1].latitude}, ${logger!.locations[logger!.locations.length - 1].longitude}',
-              ),
-              icon: BitmapDescriptor.defaultMarker,
-            ),
-          }),
+    return GoogleMap(
+      mapType: MapType.hybrid,
+      initialCameraPosition: CameraPosition(
+          target: LatLng(logger!.locations.first.latitude.toDouble(),
+              logger!.locations.first.longitude.toDouble()),
+          zoom: 16.5),
+      markers: <Marker>{
+        Marker(
+          markerId: const MarkerId('RadonLogger'),
+          position: LatLng(logger!.locations.first.latitude.toDouble(),
+              logger!.locations.first.longitude.toDouble()),
+          infoWindow: InfoWindow(
+            title: 'RadonLogger',
+            snippet:
+                'Current Location:\n${logger!.locations.first.latitude}, ${logger!.locations.first.longitude}',
+          ),
+          icon: BitmapDescriptor.defaultMarker,
+        ),
+      },
     );
   }
 }
