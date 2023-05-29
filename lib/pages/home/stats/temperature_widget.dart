@@ -15,7 +15,7 @@ class TemperatureWidget extends HookWidget {
   Widget build(BuildContext context) {
     return FooContainer(
       title: "Temperature",
-      titleIcon: Icons.abc,
+      titleIcon: Icons.thermostat_rounded,
       titleColor: Colors.black,
       borderRadius: BorderRadius.circular(30),
       backgroundColor: Colors.white,
@@ -23,10 +23,10 @@ class TemperatureWidget extends HookWidget {
         children: [
           FooContainer(
             title: "Inside",
-            titleIcon: Icons.monitor_heart_rounded,
+            titleIcon: Icons.house_rounded,
             titleColor: Colors.white,
             borderRadius: BorderRadius.circular(30),
-            backgroundColor: Colors.white,
+            backgroundColor: Colors.black,
             body: Text(
               "${logInside.temperature}",
               style: TextStyle(color: Colors.white),
@@ -34,10 +34,10 @@ class TemperatureWidget extends HookWidget {
           ),
           FooContainer(
             title: "Outside",
-            titleIcon: Icons.shield,
+            titleIcon: Icons.forest_rounded,
             titleColor: Colors.white,
             borderRadius: BorderRadius.circular(30),
-            backgroundColor: Colors.white,
+            backgroundColor: Colors.black,
             body: Text("${logOutside.temperature}",
                 style: TextStyle(color: Colors.white)),
           ),

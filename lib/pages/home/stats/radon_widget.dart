@@ -12,7 +12,7 @@ class RadonWidget extends HookWidget {
   Widget build(BuildContext context) {
     return FooContainer(
       title: "Radon",
-      titleIcon: Icons.abc,
+      titleIcon: Icons.error_rounded,
       titleColor: Colors.black,
       borderRadius: BorderRadius.circular(30),
       backgroundColor: Colors.white,
@@ -23,7 +23,7 @@ class RadonWidget extends HookWidget {
             titleIcon: Icons.monitor_heart_rounded,
             titleColor: Colors.white,
             borderRadius: BorderRadius.circular(30),
-            backgroundColor: Colors.white,
+            backgroundColor: Colors.black,
             body: Column(
               children: [
                 Text("${logInside.radonSta}",
@@ -38,7 +38,7 @@ class RadonWidget extends HookWidget {
             titleIcon: Icons.shield,
             titleColor: Colors.white,
             borderRadius: BorderRadius.circular(30),
-            backgroundColor: Colors.white,
+            backgroundColor: Colors.black,
             body: Text("Good", style: TextStyle(color: Colors.white)),
           ),
         ],
