@@ -12,19 +12,25 @@ class HomePage extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final bottomNavIndex = useState(0);
+    final timestamp = useState(selectedLogger.logs.first.timestamp);
 
     return Scaffold(
       appBar: AppBar(
         title: Text('Device ${selectedLogger.id}'),
       ),
-      body: Center(
-        child: IndexedStack(
-          index: bottomNavIndex.value,
-          children: [
-            StatsWidget(logger: selectedLogger),
-            MapWidget(logger: selectedLogger),
-          ],
-        ),
+      body: Column(
+        children: [
+          Expanded(
+            child: IndexedStack(
+              index: bottomNavIndex.value,
+              children: [
+                StatsWidget(logger: selectedLogger),
+                MapWidget(logger: selectedLogger),
+              ],
+            ),
+          ),
+          Text('Last updated: ${timestamp.value}'),
+        ]
       ),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
