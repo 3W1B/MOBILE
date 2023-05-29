@@ -3,6 +3,10 @@
         android:label="radon_app"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
+        <meta-data 
+          android:name="com.google.android.geo.API_KEY"
+          android:value="AIzaSyBVYDCjE7CN02sN75N2yE4gAWHADYaztP0"
+        />
         <activity
             android:name=".MainActivity"
             android:exported="true"

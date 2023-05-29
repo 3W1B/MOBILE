@@ -5,7 +5,7 @@ void main() {
   group('Logger Repository', () {
     test("Test should return a logger", () async {
       LoggerRepository loggerRepository = LoggerRepository();
-      final logger = await loggerRepository.read('testid', 'testpassword');
+      final logger = await loggerRepository.read('testid');
       expect(logger.id, 'testid');
     });
   });
