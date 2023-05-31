@@ -53,52 +53,84 @@ class RadonGraph extends HookWidget {
       titleColor: Colors.black,
       borderRadius: BorderRadius.circular(30),
       backgroundColor: Colors.white,
-      child: FooLineChart(
-        titlesData: FlTitlesData(
-          show: true,
-          topTitles: AxisTitles(
-            sideTitles: SideTitles(
-              showTitles: false,
-            ),
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                width: 10,
+                height: 10,
+                decoration: BoxDecoration(
+                  color: Colors.blue,
+                  borderRadius: BorderRadius.circular(30),
+                ),
+              ),
+              Text('Lta'),
+              SizedBox(width: 40),
+              Container(
+                width: 10,
+                height: 10,
+                decoration: BoxDecoration(
+                  color: Colors.red,
+                  borderRadius: BorderRadius.circular(30),
+                ),
+              ),
+              Text('Sta'),
+            ],
           ),
-          rightTitles: AxisTitles(
-            sideTitles: SideTitles(
-              showTitles: false,
-            ),
-          ),
-        ),
-        borderData: FlBorderData(
-          show: true,
-          border: Border.all(color: Colors.black, width: 1),
-        ),
-        minX: 0,
-        maxX: 48,
-        minY: 0,
-        maxY: getMaxY(),
-        lineBarsData: [
-          LineChartBarData(
-            spots: getStaSpots(),
-            isCurved: true,
-            barWidth: 2,
-            isStrokeCapRound: true,
-            dotData: FlDotData(
-              show: false,
-            ),
-            belowBarData: BarAreaData(
+          FooLineChart(
+            titlesData: FlTitlesData(
               show: true,
+              topTitles: AxisTitles(
+                sideTitles: SideTitles(
+                  showTitles: false,
+                ),
+              ),
+              rightTitles: AxisTitles(
+                sideTitles: SideTitles(
+                  showTitles: false,
+                ),
+              ),
             ),
-          ),
-          LineChartBarData(
-            spots: getLtaSpots(),
-            isCurved: true,
-            barWidth: 2,
-            isStrokeCapRound: true,
-            dotData: FlDotData(
-              show: false,
-            ),
-            belowBarData: BarAreaData(
+            borderData: FlBorderData(
               show: true,
+              border: Border.all(color: Colors.black, width: 1),
             ),
+            minX: 0,
+            maxX: logger.logs.length.toDouble() - 1,
+            minY: 0,
+            maxY: getMaxY(),
+            lineBarsData: [
+              LineChartBarData(
+                spots: getLtaSpots(),
+                isCurved: true,
+                color: Colors.blue,
+                barWidth: 2,
+                isStrokeCapRound: true,
+                dotData: FlDotData(
+                  show: false,
+                ),
+                belowBarData: BarAreaData(
+                  show: true,
+                  color: Colors.blue.withOpacity(0.5),
+                ),
+              ),
+              LineChartBarData(
+                spots: getStaSpots(),
+                isCurved: true,
+                color: Colors.red,
+                barWidth: 2,
+                isStrokeCapRound: true,
+                dotData: FlDotData(
+                  show: false,
+                ),
+                belowBarData: BarAreaData(
+                  show: true,
+                  color: Colors.red.withOpacity(0.5),
+                ),
+              ),
+            ],
           ),
         ],
       ),

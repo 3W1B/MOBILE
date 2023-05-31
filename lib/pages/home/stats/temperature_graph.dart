@@ -54,59 +54,87 @@ class TemperatureGraph extends HookWidget {
       titleColor: Colors.black,
       borderRadius: BorderRadius.circular(30),
       backgroundColor: Colors.white,
-      child: FooLineChart(
-        titlesData: FlTitlesData(
-          show: true,
-          topTitles: AxisTitles(
-            sideTitles: SideTitles(
-              showTitles: false,
-            ),
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                width: 10,
+                height: 10,
+                decoration: BoxDecoration(
+                  color: Colors.blue,
+                  borderRadius: BorderRadius.circular(30),
+                ),
+              ),
+              Text('Inside'),
+              SizedBox(width: 40),
+              Container(
+                width: 10,
+                height: 10,
+                decoration: BoxDecoration(
+                  color: Colors.red,
+                  borderRadius: BorderRadius.circular(30),
+                ),
+              ),
+              Text('Outside'),
+            ],
           ),
-          rightTitles: AxisTitles(
-            sideTitles: SideTitles(
-              showTitles: false,
-            ),
-          ),
-        ),
-        borderData: FlBorderData(
-          show: true,
-          border: Border.all(
-            color: Colors.grey,
-            width: 1,
-          ),
-        ),
-        minX: 0,
-        maxX: logger.logs.length.toDouble() - 1,
-        minY: 0,
-        maxY: getMaxY(),
-        lineBarsData: [
-          LineChartBarData(
-            spots: getInsideSpots(),
-            isCurved: true,
-            color: Colors.blue,
-            barWidth: 2,
-            isStrokeCapRound: true,
-            dotData: FlDotData(
-              show: false,
-            ),
-            belowBarData: BarAreaData(
+          FooLineChart(
+            titlesData: FlTitlesData(
               show: true,
-              color: Colors.blue.withOpacity(0.5),
+              topTitles: AxisTitles(
+                sideTitles: SideTitles(
+                  showTitles: false,
+                ),
+              ),
+              rightTitles: AxisTitles(
+                sideTitles: SideTitles(
+                  showTitles: false,
+                ),
+              ),
             ),
-          ),
-          LineChartBarData(
-            spots: getOutsideSpots(),
-            isCurved: true,
-            color: Colors.red,
-            barWidth: 2,
-            isStrokeCapRound: true,
-            dotData: FlDotData(
-              show: false,
-            ),
-            belowBarData: BarAreaData(
+            borderData: FlBorderData(
               show: true,
-              color: Colors.red.withOpacity(0.5),
+              border: Border.all(
+                color: Colors.grey,
+                width: 1,
+              ),
             ),
+            minX: 0,
+            maxX: logger.logs.length.toDouble() - 1,
+            minY: 0,
+            maxY: getMaxY(),
+            lineBarsData: [
+              LineChartBarData(
+                spots: getInsideSpots(),
+                isCurved: true,
+                color: Colors.blue,
+                barWidth: 2,
+                isStrokeCapRound: true,
+                dotData: FlDotData(
+                  show: false,
+                ),
+                belowBarData: BarAreaData(
+                  show: true,
+                  color: Colors.blue.withOpacity(0.5),
+                ),
+              ),
+              LineChartBarData(
+                spots: getOutsideSpots(),
+                isCurved: true,
+                color: Colors.red,
+                barWidth: 2,
+                isStrokeCapRound: true,
+                dotData: FlDotData(
+                  show: false,
+                ),
+                belowBarData: BarAreaData(
+                  show: true,
+                  color: Colors.red.withOpacity(0.5),
+                ),
+              ),
+            ],
           ),
         ],
       ),
