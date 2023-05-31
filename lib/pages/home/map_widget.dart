@@ -6,30 +6,31 @@ import 'package:radon_app/models/logger.dart';
 class MapWidget extends HookWidget {
   const MapWidget({super.key, required this.logger});
 
-  final Logger? logger;
+  final Logger logger;
 
   @override
   Widget build(BuildContext context) {
-    if (logger == null) {
-      return const Center(child: Text("No logger found"));
-    }
+
+    final latitude = logger.locations.first.latitude.toDouble();
+    final longitude = logger.locations.first.longitude.toDouble();
+
     return GoogleMap(
-      mapType: MapType.hybrid,
+      mapType: MapType.normal,
       initialCameraPosition: CameraPosition(
-          target: LatLng(logger!.locations.first.latitude.toDouble(),
-              logger!.locations.first.longitude.toDouble()),
+          target: LatLng(latitude, longitude),
           zoom: 16.5),
       markers: <Marker>{
         Marker(
           markerId: const MarkerId('RadonLogger'),
-          position: LatLng(logger!.locations.first.latitude.toDouble(),
-              logger!.locations.first.longitude.toDouble()),
+          position: LatLng(latitude, longitude),
           infoWindow: InfoWindow(
             title: 'RadonLogger',
             snippet:
-                'Current Location:\n${logger!.locations.first.latitude}, ${logger!.locations.first.longitude}',
+                '$latitude, $longitude',
           ),
-          icon: BitmapDescriptor.defaultMarker,
+          icon: BitmapDescriptor.defaultMarkerWithHue(
+            BitmapDescriptor.hueRed,
+          ),
         ),
       },
     );
