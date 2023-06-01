@@ -52,7 +52,6 @@ class FooContainer extends HookWidget {
               Text(title, style: TextStyle(color: titleColor)),
             ],
           ),
-          const SizedBox(height: 12),
           child,
         ],
       ),

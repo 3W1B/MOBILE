@@ -1,19 +1,22 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:radon_app/models/logger.dart';
+import 'package:radon_app/interfaces/graph.dart';
+import 'package:radon_app/models/log.dart';
+import 'package:radon_app/utils/app_colors.dart';
+import 'package:radon_app/widgets/chart_legend.dart';
 import 'package:radon_app/widgets/foo_container.dart';
 import 'package:radon_app/widgets/foo_line_chart.dart';
 
-class RadonGraph extends HookWidget {
-  const RadonGraph({super.key, required this.logger});
+class RadonGraph extends HookWidget implements Graph {
+  const RadonGraph({super.key, required this.logs});
 
-  final Logger logger;
+  final List<Log> logs;
 
   List<FlSpot> getStaSpots() {
     final spots = <FlSpot>[];
-    for (var i = 0; i < logger.logs.length; i++) {
-      final log = logger.logs[i];
+    for (var i = 0; i < logs.length; i++) {
+      final log = logs[i];
       final logInside = log.logInsides.first;
       spots.add(FlSpot(i.toDouble(), logInside.radonSta.toDouble()));
     }
@@ -22,18 +25,19 @@ class RadonGraph extends HookWidget {
 
   List<FlSpot> getLtaSpots() {
     final spots = <FlSpot>[];
-    for (var i = 0; i < logger.logs.length; i++) {
-      final log = logger.logs[i];
+    for (var i = 0; i < logs.length; i++) {
+      final log = logs[i];
       final logInside = log.logInsides.first;
       spots.add(FlSpot(i.toDouble(), logInside.radonLta.toDouble()));
     }
     return spots;
   }
 
+  @override
   double getMaxY() {
     var maxY = 0.0;
-    for (var i = 0; i < logger.logs.length; i++) {
-      final log = logger.logs[i];
+    for (var i = 0; i < logs.length; i++) {
+      final log = logs[i];
       final logInside = log.logInsides.first;
       if (logInside.radonSta > maxY) {
         maxY = logInside.radonSta.toDouble();
@@ -46,66 +50,44 @@ class RadonGraph extends HookWidget {
   }
 
   @override
+  double getMinY() {
+    var minY = 100.0;
+    for (var i = 0; i < logs.length; i++) {
+      final log = logs[i];
+      final logInside = log.logInsides.first;
+      if (logInside.radonSta < minY) {
+        minY = logInside.radonSta.toDouble();
+      }
+      if (logInside.radonLta < minY) {
+        minY = logInside.radonLta.toDouble();
+      }
+    }
+    return minY;
+  }
+
+  @override
   Widget build(BuildContext context) {
     return FooContainer(
       title: 'Radon',
       titleIcon: Icons.show_chart,
-      titleColor: Colors.black,
+      titleColor: Theme.of(context).colorScheme.onSurface,
       borderRadius: BorderRadius.circular(30),
-      backgroundColor: Colors.white,
+      backgroundColor: Theme.of(context).colorScheme.surface,
       child: Column(
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                width: 10,
-                height: 10,
-                decoration: BoxDecoration(
-                  color: Colors.blue,
-                  borderRadius: BorderRadius.circular(30),
-                ),
-              ),
-              Text('Lta'),
-              SizedBox(width: 40),
-              Container(
-                width: 10,
-                height: 10,
-                decoration: BoxDecoration(
-                  color: Colors.red,
-                  borderRadius: BorderRadius.circular(30),
-                ),
-              ),
-              Text('Sta'),
-            ],
-          ),
           FooLineChart(
-            titlesData: FlTitlesData(
-              show: true,
-              topTitles: AxisTitles(
-                sideTitles: SideTitles(
-                  showTitles: false,
-                ),
-              ),
-              rightTitles: AxisTitles(
-                sideTitles: SideTitles(
-                  showTitles: false,
-                ),
-              ),
+            legend: Legend(
+              labels: ['Short Term Average', 'Long Term Average'],
+              colors: [AppColors.radonSta, AppColors.radonLta],
             ),
-            borderData: FlBorderData(
-              show: true,
-              border: Border.all(color: Colors.black, width: 1),
-            ),
+            description: 'Measured in Bq/m3',
             minX: 0,
-            maxX: logger.logs.length.toDouble() - 1,
-            minY: 0,
+            maxX: logs.length.toDouble() - 1,
+            minY: getMinY(),
             maxY: getMaxY(),
             lineBarsData: [
               LineChartBarData(
                 spots: getLtaSpots(),
-                isCurved: true,
-                color: Colors.blue,
                 barWidth: 2,
                 isStrokeCapRound: true,
                 dotData: FlDotData(
@@ -113,13 +95,12 @@ class RadonGraph extends HookWidget {
                 ),
                 belowBarData: BarAreaData(
                   show: true,
-                  color: Colors.blue.withOpacity(0.5),
+                  color: AppColors.radonLta.withOpacity(0.3),
                 ),
+                color: AppColors.radonLta,
               ),
               LineChartBarData(
                 spots: getStaSpots(),
-                isCurved: true,
-                color: Colors.red,
                 barWidth: 2,
                 isStrokeCapRound: true,
                 dotData: FlDotData(
@@ -127,10 +108,11 @@ class RadonGraph extends HookWidget {
                 ),
                 belowBarData: BarAreaData(
                   show: true,
-                  color: Colors.red.withOpacity(0.5),
+                  color: AppColors.radonSta.withOpacity(0.3),
                 ),
+                color: AppColors.radonSta,
               ),
-            ],
+            ], interval: 20,
           ),
         ],
       ),

@@ -53,7 +53,8 @@ class LoginPage extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                           builder: (_) =>
-                              DevicePage(user: user, loggers: loggers)),
+                              DevicePage(user: user, loggers: loggers),
+                      ),
                     );
                   },
                   child: Text("Login")),

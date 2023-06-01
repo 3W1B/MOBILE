@@ -1,19 +1,22 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:radon_app/models/logger.dart';
+import 'package:radon_app/interfaces/graph.dart';
+import 'package:radon_app/models/log.dart';
+import 'package:radon_app/utils/app_colors.dart';
+import 'package:radon_app/widgets/chart_legend.dart';
 import 'package:radon_app/widgets/foo_container.dart';
 import 'package:radon_app/widgets/foo_line_chart.dart';
 
-class TemperatureGraph extends HookWidget {
-  const TemperatureGraph({super.key, required this.logger});
+class TemperatureGraph extends HookWidget implements Graph {
+  const TemperatureGraph({super.key, required this.logs});
 
-  final Logger logger;
+  final List<Log> logs;
 
   List<FlSpot> getInsideSpots() {
     final spots = <FlSpot>[];
-    for (var i = 0; i < logger.logs.length; i++) {
-      final log = logger.logs[i];
+    for (var i = 0; i < logs.length; i++) {
+      final log = logs[i];
       final logInside = log.logInsides.first;
       spots.add(FlSpot(i.toDouble(), logInside.temperature.toDouble()));
     }
@@ -22,18 +25,19 @@ class TemperatureGraph extends HookWidget {
 
   List<FlSpot> getOutsideSpots() {
     final spots = <FlSpot>[];
-    for (var i = 0; i < logger.logs.length; i++) {
-      final log = logger.logs[i];
+    for (var i = 0; i < logs.length; i++) {
+      final log = logs[i];
       final logOutside = log.logOutsides.first;
       spots.add(FlSpot(i.toDouble(), logOutside.temperature.toDouble()));
     }
     return spots;
   }
 
+  @override
   double getMaxY() {
     var maxY = 0.0;
-    for (var i = 0; i < logger.logs.length; i++) {
-      final log = logger.logs[i];
+    for (var i = 0; i < logs.length; i++) {
+      final log = logs[i];
       final logInside = log.logInsides.first;
       final logOutside = log.logOutsides.first;
       if (logInside.temperature > maxY) {
@@ -47,69 +51,45 @@ class TemperatureGraph extends HookWidget {
   }
 
   @override
+  double getMinY() {
+    var minY = 100.0;
+    for (var i = 0; i < logs.length; i++) {
+      final log = logs[i];
+      final logInside = log.logInsides.first;
+      final logOutside = log.logOutsides.first;
+      if (logInside.temperature < minY) {
+        minY = logInside.temperature.toDouble();
+      }
+      if (logOutside.temperature < minY) {
+        minY = logOutside.temperature.toDouble();
+      }
+    }
+    return minY;
+  }
+
+  @override
   Widget build(BuildContext context) {
     return FooContainer(
       title: 'Temperature',
       titleIcon: Icons.wb_sunny,
-      titleColor: Colors.black,
+      titleColor: Theme.of(context).colorScheme.onSurface,
       borderRadius: BorderRadius.circular(30),
-      backgroundColor: Colors.white,
+      backgroundColor: Theme.of(context).colorScheme.surface,
       child: Column(
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                width: 10,
-                height: 10,
-                decoration: BoxDecoration(
-                  color: Colors.blue,
-                  borderRadius: BorderRadius.circular(30),
-                ),
-              ),
-              Text('Inside'),
-              SizedBox(width: 40),
-              Container(
-                width: 10,
-                height: 10,
-                decoration: BoxDecoration(
-                  color: Colors.red,
-                  borderRadius: BorderRadius.circular(30),
-                ),
-              ),
-              Text('Outside'),
-            ],
-          ),
           FooLineChart(
-            titlesData: FlTitlesData(
-              show: true,
-              topTitles: AxisTitles(
-                sideTitles: SideTitles(
-                  showTitles: false,
-                ),
-              ),
-              rightTitles: AxisTitles(
-                sideTitles: SideTitles(
-                  showTitles: false,
-                ),
-              ),
+            legend: Legend(
+              labels: ['Inside', 'Outside'],
+              colors: [AppColors.temperatureInside, AppColors.temperatureOutside],
             ),
-            borderData: FlBorderData(
-              show: true,
-              border: Border.all(
-                color: Colors.grey,
-                width: 1,
-              ),
-            ),
+            description: 'Measured in °C',
             minX: 0,
-            maxX: logger.logs.length.toDouble() - 1,
-            minY: 0,
+            maxX: logs.length.toDouble() - 1,
+            minY: getMinY(),
             maxY: getMaxY(),
             lineBarsData: [
               LineChartBarData(
-                spots: getInsideSpots(),
-                isCurved: true,
-                color: Colors.blue,
+                spots: getOutsideSpots(),
                 barWidth: 2,
                 isStrokeCapRound: true,
                 dotData: FlDotData(
@@ -117,13 +97,12 @@ class TemperatureGraph extends HookWidget {
                 ),
                 belowBarData: BarAreaData(
                   show: true,
-                  color: Colors.blue.withOpacity(0.5),
+                  color: AppColors.temperatureOutside.withOpacity(0.3),
                 ),
+                color: AppColors.temperatureOutside,
               ),
               LineChartBarData(
-                spots: getOutsideSpots(),
-                isCurved: true,
-                color: Colors.red,
+                spots: getInsideSpots(),
                 barWidth: 2,
                 isStrokeCapRound: true,
                 dotData: FlDotData(
@@ -131,10 +110,11 @@ class TemperatureGraph extends HookWidget {
                 ),
                 belowBarData: BarAreaData(
                   show: true,
-                  color: Colors.red.withOpacity(0.5),
+                  color: AppColors.temperatureInside.withOpacity(0.3),
                 ),
+                color: AppColors.temperatureInside,
               ),
-            ],
+            ], interval: 2,
           ),
         ],
       ),

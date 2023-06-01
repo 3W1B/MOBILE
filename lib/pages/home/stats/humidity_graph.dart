@@ -1,19 +1,22 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:radon_app/models/logger.dart';
+import 'package:radon_app/interfaces/graph.dart';
+import 'package:radon_app/models/log.dart';
+import 'package:radon_app/utils/app_colors.dart';
+import 'package:radon_app/widgets/chart_legend.dart';
 import 'package:radon_app/widgets/foo_container.dart';
 import 'package:radon_app/widgets/foo_line_chart.dart';
 
-class HumidityGraph extends HookWidget {
-  const HumidityGraph({super.key, required this.logger});
+class HumidityGraph extends HookWidget implements Graph {
+  const HumidityGraph({super.key, required this.logs});
 
-  final Logger logger;
+  final List<Log> logs;
 
   List<FlSpot> getInsideSpots() {
     final spots = <FlSpot>[];
-    for (var i = 0; i < logger.logs.length; i++) {
-      final log = logger.logs[i];
+    for (var i = 0; i < logs.length; i++) {
+      final log = logs[i];
       final logInside = log.logInsides.first;
       spots.add(FlSpot(i.toDouble(), logInside.humidity.toDouble()));
     }
@@ -22,18 +25,19 @@ class HumidityGraph extends HookWidget {
 
   List<FlSpot> getOutsideSpots() {
     final spots = <FlSpot>[];
-    for (var i = 0; i < logger.logs.length; i++) {
-      final log = logger.logs[i];
+    for (var i = 0; i < logs.length; i++) {
+      final log = logs[i];
       final logOutside = log.logOutsides.first;
       spots.add(FlSpot(i.toDouble(), logOutside.humidity.toDouble()));
     }
     return spots;
   }
 
+  @override
   double getMaxY() {
     var maxY = 0.0;
-    for (var i = 0; i < logger.logs.length; i++) {
-      final log = logger.logs[i];
+    for (var i = 0; i < logs.length; i++) {
+      final log = logs[i];
       final logInside = log.logInsides.first;
       final logOutside = log.logOutsides.first;
       if (logInside.humidity > maxY) {
@@ -47,66 +51,45 @@ class HumidityGraph extends HookWidget {
   }
 
   @override
+  double getMinY() {
+    var minY = 100.0;
+    for (var i = 0; i < logs.length; i++) {
+      final log = logs[i];
+      final logInside = log.logInsides.first;
+      final logOutside = log.logOutsides.first;
+      if (logInside.humidity < minY) {
+        minY = logInside.humidity.toDouble();
+      }
+      if (logOutside.humidity < minY) {
+        minY = logOutside.humidity.toDouble();
+      }
+    }
+    return minY;
+  }
+
+  @override
   Widget build(BuildContext context) {
     return FooContainer(
       title: 'Humidity',
       titleIcon: Icons.wb_cloudy,
-      titleColor: Colors.black,
+      titleColor: Theme.of(context).colorScheme.onSurface,
       borderRadius: BorderRadius.circular(30),
-      backgroundColor: Colors.white,
+      backgroundColor: Theme.of(context).colorScheme.surface,
       child: Column(
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                width: 10,
-                height: 10,
-                decoration: BoxDecoration(
-                  color: Colors.blue,
-                  borderRadius: BorderRadius.circular(30),
-                ),
-              ),
-              Text('Outside'),
-              SizedBox(width: 40),
-              Container(
-                width: 10,
-                height: 10,
-                decoration: BoxDecoration(
-                  color: Colors.red,
-                  borderRadius: BorderRadius.circular(30),
-                ),
-              ),
-              Text('Inside'),
-            ],
-          ),
           FooLineChart(
-            titlesData: FlTitlesData(
-              show: true,
-              topTitles: AxisTitles(
-                sideTitles: SideTitles(
-                  showTitles: false,
-                ),
-              ),
-              rightTitles: AxisTitles(
-                sideTitles: SideTitles(
-                  showTitles: false,
-                ),
-              ),
+            legend: Legend(
+              labels: ['Inside', 'Outside'],
+              colors: [AppColors.humidityInside, AppColors.humidityOutside],
             ),
-            borderData: FlBorderData(
-              show: true,
-              border: Border.all(color: Colors.black, width: 1),
-            ),
+            description: 'Measured in %',
             minX: 0,
-            maxX: logger.logs.length.toDouble() - 1,
-            minY: 0,
+            maxX: logs.length.toDouble() - 1,
+            minY: getMinY(),
             maxY: getMaxY(),
             lineBarsData: [
               LineChartBarData(
                 spots: getOutsideSpots(),
-                isCurved: true,
-                color: Colors.blue,
                 barWidth: 2,
                 isStrokeCapRound: true,
                 dotData: FlDotData(
@@ -114,13 +97,12 @@ class HumidityGraph extends HookWidget {
                 ),
                 belowBarData: BarAreaData(
                   show: true,
-                  color: Colors.blue.withOpacity(0.5),
+                  color: AppColors.humidityOutside.withOpacity(0.3),
                 ),
+                color: AppColors.humidityOutside,
               ),
               LineChartBarData(
                 spots: getInsideSpots(),
-                isCurved: true,
-                color: Colors.red,
                 barWidth: 2,
                 isStrokeCapRound: true,
                 dotData: FlDotData(
@@ -128,10 +110,11 @@ class HumidityGraph extends HookWidget {
                 ),
                 belowBarData: BarAreaData(
                   show: true,
-                  color: Colors.red.withOpacity(0.5),
+                  color: AppColors.humidityInside.withOpacity(0.3),
                 ),
+                color: AppColors.humidityInside,
               ),
-            ],
+            ], interval: 5,
           ),
         ],
       ),

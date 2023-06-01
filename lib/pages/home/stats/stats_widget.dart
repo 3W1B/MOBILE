@@ -25,9 +25,9 @@ class GraphsWidget extends HookWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        RadonGraph(logger: logger),
-        HumidityGraph(logger: logger),
-        TemperatureGraph(logger: logger),
+        RadonGraph(logs: logger.logs),
+        HumidityGraph(logs: logger.logs),
+        TemperatureGraph(logs: logger.logs),
       ],
     );
   }
