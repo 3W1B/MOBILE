@@ -42,49 +42,56 @@ class DevicePage extends StatelessWidget {
           body: Column(
             children: [
               if (loggers.value.isEmpty) ...[
-                const Center(child: Text("No loggers found")),
+                const Text("No loggers found"),
               ] else ...[
-                Expanded(
-                  child: ListView.builder(
-                    itemCount: loggers.value.length,
-                    itemBuilder: (context, index) {
-                      return DeviceWidget(
-                        logger: loggers.value[index],
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => HomePage(
-                                  selectedLogger: loggers.value[index]),
-                            ),
-                          );
-                        },
-                      );
-                    },
-                  ),
-                ),
-              ],
-              Column(
-                children: [
-                  TextField(
-                    controller: loggerIdController,
-                    decoration: const InputDecoration(
-                      labelText: 'Logger ID',
-                    ),
-                  ),
-                  TextField(
-                    controller: loggerPasswordController,
-                    decoration: const InputDecoration(
-                      labelText: 'Logger password',
-                    ),
-                  ),
-                  ElevatedButton(
-                      onPressed: () async {
-                        await addLogger(loggerIdController,
-                            loggerPasswordController, loggers);
+                  Expanded(
+                    child: ListView.builder(
+                      itemCount: loggers.value.length,
+                      itemBuilder: (context, index) {
+                        return DeviceWidget(
+                          logger: loggers.value[index],
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => HomePage(
+                                  selectedLogger: loggers.value[index],
+                                ),
+                              ),
+                            );
+                          },
+                        );
                       },
-                      child: Text("Add logger")),
-                ],
+                    ),
+                  ),
+              ],
+              Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: Column(
+                  children: [
+                    TextField(
+                      controller: loggerIdController,
+                      decoration: const InputDecoration(
+                        labelText: 'Logger ID',
+                      ),
+                    ),
+                    TextField(
+                      controller: loggerPasswordController,
+                      decoration: const InputDecoration(
+                        labelText: 'Logger password',
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: ElevatedButton(
+                          onPressed: () async {
+                            await addLogger(loggerIdController,
+                                loggerPasswordController, loggers);
+                          },
+                          child: Text("Add logger")),
+                    ),
+                  ],
+                ),
               )
             ],
           ),

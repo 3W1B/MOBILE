@@ -31,43 +31,53 @@ class LoginPage extends StatelessWidget {
           appBar: AppBar(
             title: const Text('Login'),
           ),
-          body: Column(
-            children: [
-              Text("email"),
-              TextField(
-                controller: emailController,
-              ),
-              Text("password"),
-              TextField(
-                controller: passwordController,
-              ),
-              ElevatedButton(
-                  onPressed: () async {
-                    final userRepository = UserRepository();
-                    final user = await userRepository.login(
-                      emailController.text,
-                      passwordController.text,
-                    );
-                    final loggers = await fetchLoggers(user.userLoggers);
+          body: Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: Column(
+              children: [
+                TextField(
+                  controller: emailController,
+                  decoration: const InputDecoration(
+                    labelText: 'Email',
+                  ),
+                ),
+                TextField(
+                  controller: passwordController,
+                  decoration: const InputDecoration(
+                    labelText: 'Password',
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: ElevatedButton(
+                      onPressed: () async {
+                        final userRepository = UserRepository();
+                        final user = await userRepository.login(
+                          emailController.text,
+                          passwordController.text,
+                        );
+                        final loggers = await fetchLoggers(user.userLoggers);
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (_) =>
+                                  DevicePage(user: user, loggers: loggers),
+                          ),
+                        );
+                      },
+                      child: Text("Login")),
+                ),
+                GestureDetector(
+                  child: Text("Don't have an account?"),
+                  onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(
-                          builder: (_) =>
-                              DevicePage(user: user, loggers: loggers),
-                      ),
+                      MaterialPageRoute(builder: (_) => RegisterPage()),
                     );
                   },
-                  child: Text("Login")),
-              GestureDetector(
-                child: Text("Don't have an account?"),
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (_) => RegisterPage()),
-                  );
-                },
-              ),
-            ],
+                ),
+              ],
+            ),
           ),
         );
       },
