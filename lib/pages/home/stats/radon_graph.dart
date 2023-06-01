@@ -77,7 +77,7 @@ class RadonGraph extends HookWidget implements Graph {
         children: [
           FooLineChart(
             legend: Legend(
-              labels: ['Short Term Average', 'Long Term Average'],
+              labels: ['Short Average', 'Long Average'],
               colors: [AppColors.radonSta, AppColors.radonLta],
             ),
             description: 'Measured in Bq/m3',
