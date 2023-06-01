@@ -43,7 +43,6 @@ class FooLineChart extends HookWidget {
                   show: true,
                   drawVerticalLine: true,
                   drawHorizontalLine: true,
-                  verticalInterval: interval / 2,
                   horizontalInterval: interval,
                   getDrawingHorizontalLine: (value) {
                     return FlLine(
