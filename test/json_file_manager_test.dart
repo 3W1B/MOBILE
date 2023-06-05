@@ -9,23 +9,22 @@ void main() {
     late JsonFileManager jsonFileManager;
 
     setUp(() {
-      jsonFileManager = JsonFileManager();
     });
 
     test('CRUD', () async {
       final initialData = {'user': 'asd'};
-      await jsonFileManager.create(initialData);
+      await JsonFileManager.create(initialData);
 
-      var data = await jsonFileManager.read('user');
+      var data = await JsonFileManager.read('user');
       expect(data, equals(initialData));
 
       final updatedData = {'user': 'updatedasd'};
-      await jsonFileManager.update(updatedData);
+      await JsonFileManager.update(updatedData);
 
-      data = await jsonFileManager.read('user');
+      data = await JsonFileManager.read('user');
       expect(data, equals(updatedData));
 
-      await jsonFileManager.delete('user');
+      await JsonFileManager.delete('user');
     });
   });
 }

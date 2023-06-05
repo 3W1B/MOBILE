@@ -71,7 +71,7 @@ class HumidityGraph extends HookWidget implements Graph {
   Widget build(BuildContext context) {
     return FooContainer(
       title: 'Humidity',
-      titleIcon: Icons.wb_cloudy,
+      titleIcon: Icons.opacity_rounded,
       titleColor: Theme.of(context).colorScheme.onSurface,
       borderRadius: BorderRadius.circular(30),
       backgroundColor: Theme.of(context).colorScheme.surface,
@@ -114,7 +114,8 @@ class HumidityGraph extends HookWidget implements Graph {
                 ),
                 color: AppColors.humidityInside,
               ),
-            ], interval: 5,
+            ],
+            interval: 5,
           ),
         ],
       ),

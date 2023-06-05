@@ -3,6 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:radon_app/pages/device/device_page.dart';
 import 'package:radon_app/pages/login/register_page.dart';
 import 'package:radon_app/repositories/user_repository.dart';
+import 'package:radon_app/widgets/foo_appbar.dart';
 
 import '../../models/logger.dart';
 import '../../models/user_logger.dart';
@@ -28,9 +29,7 @@ class LoginPage extends StatelessWidget {
         final emailController = useTextEditingController();
         final passwordController = useTextEditingController();
         return Scaffold(
-          appBar: AppBar(
-            title: const Text('Login'),
-          ),
+          appBar: FooAppbar(context: context, title: 'Login'),
           body: Padding(
             padding: const EdgeInsets.all(12.0),
             child: Column(

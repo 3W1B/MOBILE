@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
+import 'asap_text.dart';
+
 class Legend {
   final List<String> labels;
   final List<Color> colors;
@@ -30,7 +32,7 @@ class ChartLegend extends HookWidget {
                 ),
               ),
               const SizedBox(width: 5),
-              Text(legend.labels[i]),
+              AsapText(text: legend.labels[i], fontSize: 12),
             ],
           ),
       ],

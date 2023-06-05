@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class AppColors {
+  static get primary => const Color(0xFF00c0e8);
   static get radonLta => const Color(0xFF4caf50);
   static get radonSta => const Color(0xFF00c0e8);
   static get humidityOutside => const Color(0xFF4caf50);

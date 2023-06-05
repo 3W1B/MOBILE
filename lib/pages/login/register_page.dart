@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:radon_app/repositories/user_repository.dart';
+import 'package:radon_app/widgets/foo_appbar.dart';
 
 class RegisterPage extends StatelessWidget {
   const RegisterPage({super.key});
@@ -14,9 +15,7 @@ class RegisterPage extends StatelessWidget {
       final lastNameController = useTextEditingController();
       final phoneController = useTextEditingController();
       return Scaffold(
-          appBar: AppBar(
-            title: const Text('Register'),
-          ),
+          appBar: FooAppbar(context: context, title: 'Register'),
           body: Padding(
             padding: const EdgeInsets.all(12.0),
             child: Column(

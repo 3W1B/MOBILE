@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:radon_app/widgets/chart_legend.dart';
 
+import 'asap_text.dart';
+
 class FooLineChart extends HookWidget {
   const FooLineChart(
       {super.key,
@@ -81,9 +83,9 @@ class FooLineChart extends HookWidget {
                         if (value == titleMeta.max) {
                           return Container();
                         }
-                        return Text(
-                          '${value.toInt()}',
-                          style: Theme.of(context).textTheme.bodySmall,
+                        return AsapText(
+                          text: '${value.toInt()}',
+                          fontSize: 12,
                         );
                       },
                       interval: interval,
@@ -102,9 +104,9 @@ class FooLineChart extends HookWidget {
             ),
           ),
           const SizedBox(height: 8),
-          Text(
-            description,
-            style: Theme.of(context).textTheme.bodySmall,
+          AsapText(
+            text: description,
+            fontSize: 12,
           ),
         ],
       ),

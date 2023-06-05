@@ -69,7 +69,7 @@ class RadonGraph extends HookWidget implements Graph {
   Widget build(BuildContext context) {
     return FooContainer(
       title: 'Radon',
-      titleIcon: Icons.show_chart,
+      titleIcon: Icons.waves_rounded,
       titleColor: Theme.of(context).colorScheme.onSurface,
       borderRadius: BorderRadius.circular(30),
       backgroundColor: Theme.of(context).colorScheme.surface,
@@ -112,7 +112,8 @@ class RadonGraph extends HookWidget implements Graph {
                 ),
                 color: AppColors.radonSta,
               ),
-            ], interval: 20,
+            ],
+            interval: 20,
           ),
         ],
       ),

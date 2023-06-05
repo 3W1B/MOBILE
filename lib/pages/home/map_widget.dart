@@ -35,7 +35,7 @@ class MapWidget extends HookWidget {
                 '$latitude, $longitude',
           ),
           icon: BitmapDescriptor.defaultMarkerWithHue(
-            BitmapDescriptor.hueRed,
+            BitmapDescriptor.hueViolet,
           ),
         ),
       },

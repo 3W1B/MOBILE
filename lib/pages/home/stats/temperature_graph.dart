@@ -71,7 +71,7 @@ class TemperatureGraph extends HookWidget implements Graph {
   Widget build(BuildContext context) {
     return FooContainer(
       title: 'Temperature',
-      titleIcon: Icons.wb_sunny,
+      titleIcon: Icons.thermostat_rounded,
       titleColor: Theme.of(context).colorScheme.onSurface,
       borderRadius: BorderRadius.circular(30),
       backgroundColor: Theme.of(context).colorScheme.surface,
@@ -80,7 +80,10 @@ class TemperatureGraph extends HookWidget implements Graph {
           FooLineChart(
             legend: Legend(
               labels: ['Inside', 'Outside'],
-              colors: [AppColors.temperatureInside, AppColors.temperatureOutside],
+              colors: [
+                AppColors.temperatureInside,
+                AppColors.temperatureOutside
+              ],
             ),
             description: 'Measured in °C',
             minX: 0,
@@ -114,7 +117,8 @@ class TemperatureGraph extends HookWidget implements Graph {
                 ),
                 color: AppColors.temperatureInside,
               ),
-            ], interval: 2,
+            ],
+            interval: 2,
           ),
         ],
       ),

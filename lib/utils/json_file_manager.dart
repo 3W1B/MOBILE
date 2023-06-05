@@ -2,8 +2,8 @@ import 'dart:io';
 import 'package:path_provider/path_provider.dart';
 import 'dart:convert';
 
-class JsonFileManager {
-  Future<File> create(Map<String, dynamic> newData) async {
+abstract class JsonFileManager {
+  static Future<File> create(Map<String, dynamic> newData) async {
     final directory = await getApplicationDocumentsDirectory();
     final path = directory.path;
     final file = File('$path/data.json');
@@ -37,7 +37,7 @@ class JsonFileManager {
     return file.writeAsString(jsonData);
   }
 
-  Future<dynamic> read(String tag) async {
+  static Future<dynamic> read(String tag) async {
     final directory = await getApplicationDocumentsDirectory();
     final path = directory.path;
     final file = File('$path/data.json');
@@ -59,7 +59,7 @@ class JsonFileManager {
     }
   }
 
-  Future<File> update(Map<String, dynamic> updatedData) async {
+  static Future<File> update(Map<String, dynamic> updatedData) async {
     final directory = await getApplicationDocumentsDirectory();
     final path = directory.path;
     final file = File('$path/data.json');
@@ -90,7 +90,7 @@ class JsonFileManager {
     return file.writeAsString(jsonData);
   }
 
-  Future<File> delete(String tag) async {
+  static Future<File> delete(String tag) async {
     final directory = await getApplicationDocumentsDirectory();
     final path = directory.path;
     final file = File('$path/data.json');

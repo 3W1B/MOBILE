@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:radon_app/pages/home/home_page.dart';
+import 'package:radon_app/widgets/foo_appbar.dart';
 
 import '../../models/logger.dart';
 import '../../models/user.dart';
@@ -36,9 +37,7 @@ class DevicePage extends StatelessWidget {
         final loggerPasswordController = useTextEditingController();
 
         return Scaffold(
-          appBar: AppBar(
-            title: const Text('Devices'),
-          ),
+          appBar: FooAppbar(context: context, title: 'Devices'),
           body: Column(
             children: [
               if (loggers.value.isEmpty) ...[
