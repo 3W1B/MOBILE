@@ -14,6 +14,7 @@ class DeviceWidget extends HookWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(logger.id),
         if (isSelected == true) ...[

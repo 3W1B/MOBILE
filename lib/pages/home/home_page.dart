@@ -35,16 +35,17 @@ class HomePage extends HookWidget {
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.poll),
-            label: 'Stats',
+            icon: Icon(Icons.poll_outlined),
+            label: 'Graphs',
+            activeIcon: Icon(Icons.poll_rounded),
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.map),
+            icon: Icon(Icons.map_outlined),
             label: 'Map',
+            activeIcon: Icon(Icons.map_rounded),
           ),
         ],
         currentIndex: bottomNavIndex.value,
-        selectedItemColor: Colors.green[800],
         onTap: (int index) {
           bottomNavIndex.value = index;
         },

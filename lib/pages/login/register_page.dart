@@ -17,49 +17,65 @@ class RegisterPage extends StatelessWidget {
           appBar: AppBar(
             title: const Text('Register'),
           ),
-          body: Column(
-            children: [
-              Text("First Name"),
-              TextField(
-                controller: firstNameController,
-              ),
-              Text("Last Name"),
-              TextField(
-                controller: lastNameController,
-              ),
-              Text("Email"),
-              TextField(
-                controller: emailController,
-              ),
-              Text("Phone"),
-              TextField(
-                controller: phoneController,
-              ),
-              Text("Password"),
-              TextField(
-                controller: passwordController,
-              ),
-              ElevatedButton(
-                  onPressed: () async {
-                    final userRepository = UserRepository();
-                    await userRepository.register(
-                        emailController.text,
-                        passwordController.text,
-                        firstNameController.text,
-                        lastNameController.text,
-                        phoneController.text);
+          body: Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: Column(
+              children: [
+                TextField(
+                  controller: firstNameController,
+                  decoration: const InputDecoration(
+                    labelText: 'First Name',
+                  ),
+                ),
+                TextField(
+                  controller: lastNameController,
+                  decoration: const InputDecoration(
+                    labelText: 'Last Name',
+                  ),
+                ),
+                TextField(
+                  controller: emailController,
+                  decoration: const InputDecoration(
+                    labelText: 'Email',
+                  ),
+                ),
+                TextField(
+                  controller: phoneController,
+                  decoration: const InputDecoration(
+                    labelText: 'Phone',
+                  ),
+                ),
+                TextField(
+                  controller: passwordController,
+                  decoration: const InputDecoration(
+                    labelText: 'Password',
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: ElevatedButton(
+                      onPressed: () async {
+                        final userRepository = UserRepository();
+                        await userRepository.register(
+                            emailController.text,
+                            passwordController.text,
+                            firstNameController.text,
+                            lastNameController.text,
+                            phoneController.text);
 
+                        Navigator.pop(context);
+                      },
+                      child: Text("Register")),
+                ),
+                GestureDetector(
+                  child: Text("Already have an account?"),
+                  onTap: () {
+                    // go back to login page
                     Navigator.pop(context);
                   },
-                  child: Text("Register")),
-              GestureDetector(
-                child: Text("Already have an account?"),
-                onTap: () {
-                  // go back to login page
-                  Navigator.pop(context);
-                },
-              ),
-            ],
+                ),
+              ],
+            ),
           ));
     });
   }

@@ -9,31 +9,50 @@ class FooContainer extends HookWidget {
       required this.titleColor,
       required this.borderRadius,
       required this.backgroundColor,
-      required this.body});
+      required this.child,
+      });
 
   final String title;
   final IconData titleIcon;
   final Color titleColor;
   final BorderRadius borderRadius;
   final Color backgroundColor;
-  final Widget body;
+  final Widget child;
 
   @override
   Widget build(BuildContext context) {
     return Container(
+      margin: const EdgeInsets.symmetric(
+        horizontal: 12,
+        vertical: 6,
+      ),
+      padding: const EdgeInsets.only(
+        right: 12,
+        top: 12,
+      ),
       decoration: BoxDecoration(
         borderRadius: borderRadius,
         color: backgroundColor,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.1),
+            spreadRadius: 1,
+            blurRadius: 4,
+            offset: const Offset(0, 3),
+          ),
+        ],
       ),
       child: Column(
         children: [
           Row(
             children: [
+              const SizedBox(width: 24),
               Icon(titleIcon, color: titleColor),
+              const SizedBox(width: 12),
               Text(title, style: TextStyle(color: titleColor)),
             ],
           ),
-          body,
+          child,
         ],
       ),
     );

@@ -15,7 +15,13 @@ class MapWidget extends HookWidget {
     final longitude = logger.locations.first.longitude.toDouble();
 
     return GoogleMap(
-      mapType: MapType.normal,
+      onMapCreated: (GoogleMapController controller) {
+        final mapStyle = Theme.of(context).brightness == Brightness.dark
+            ? '[{"featureType":"all","elementType":"all","stylers":[{"invert_lightness":true},{"saturation":10},{"lightness":30},{"gamma":0.5},{"hue":"#435158"}]}]'
+            : null;
+        controller.setMapStyle(mapStyle);
+      },
+      myLocationEnabled: true,
       initialCameraPosition: CameraPosition(
           target: LatLng(latitude, longitude),
           zoom: 16.5),
