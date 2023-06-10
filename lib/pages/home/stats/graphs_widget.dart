@@ -34,15 +34,26 @@ class GraphsWidget extends HookWidget {
       }
     }
 
-    final timestamp = useState(logger.logs.first.timestamp);
-    final formattedTimestamp = "${MonthConverter.convert(timestamp.value.month)} ${timestamp.value.day}, ${timestamp.value.hour}:${timestamp.value.minute.toString().padLeft(2, '0')}";
+    late DateTime? timestamp;
+    late String formattedTimestamp;
+    if (filteredLogs.isNotEmpty) {
+      timestamp = filteredLogs.first.timestamp;
+      formattedTimestamp = "${MonthConverter.convert(timestamp.month)} ${timestamp.day}, ${timestamp.hour}:${timestamp.minute.toString().padLeft(1, '0')}";
+    } else {
+      timestamp = null;
+    }
+
 
     return Column(
       children: [
-        AsapText(text: "Last updated: $formattedTimestamp"),
-        RadonGraph(logs: filteredLogs),
-        HumidityGraph(logs: filteredLogs),
-        TemperatureGraph(logs: filteredLogs),
+        if (timestamp != null) ... [
+          AsapText(text: "Last updated: $formattedTimestamp"),
+          RadonGraph(logs: filteredLogs),
+          HumidityGraph(logs: filteredLogs),
+          TemperatureGraph(logs: filteredLogs),
+        ] else ... [
+          const Center(child: AsapText(text: "No data available since the last 24 hours")),
+        ]
       ],
     );
   }
