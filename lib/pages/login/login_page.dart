@@ -3,6 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:radon_app/pages/device/device_page.dart';
 import 'package:radon_app/pages/login/register_page.dart';
 import 'package:radon_app/repositories/user_repository.dart';
+import 'package:radon_app/widgets/asap_text.dart';
 import 'package:radon_app/widgets/foo_appbar.dart';
 
 import '../../models/logger.dart';
@@ -64,10 +65,10 @@ class LoginPage extends StatelessWidget {
                           ),
                         );
                       },
-                      child: Text("Login")),
+                      child: const AsapText(text: "Login")),
                 ),
                 GestureDetector(
-                  child: Text("Don't have an account?"),
+                  child: const AsapText(text: "Don't have an account?"),
                   onTap: () {
                     Navigator.push(
                       context,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:radon_app/repositories/user_repository.dart';
+import 'package:radon_app/widgets/asap_text.dart';
 import 'package:radon_app/widgets/foo_appbar.dart';
 
 class RegisterPage extends StatelessWidget {
@@ -64,10 +65,10 @@ class RegisterPage extends StatelessWidget {
 
                         Navigator.pop(context);
                       },
-                      child: Text("Register")),
+                      child: const AsapText(text: "Register")),
                 ),
                 GestureDetector(
-                  child: Text("Already have an account?"),
+                  child: const AsapText(text: "Already have an account?"),
                   onTap: () {
                     // go back to login page
                     Navigator.pop(context);

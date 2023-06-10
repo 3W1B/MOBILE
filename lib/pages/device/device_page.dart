@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:radon_app/pages/home/home_page.dart';
+import 'package:radon_app/pages/readings/readings_page.dart';
+import 'package:radon_app/widgets/asap_text.dart';
 import 'package:radon_app/widgets/foo_appbar.dart';
 
 import '../../models/logger.dart';
@@ -87,7 +88,7 @@ class DevicePage extends StatelessWidget {
                             await addLogger(loggerIdController,
                                 loggerPasswordController, loggers);
                           },
-                          child: Text("Add logger")),
+                          child: const AsapText(text: "Add logger")),
                     ),
                   ],
                 ),
