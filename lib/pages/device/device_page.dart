@@ -54,7 +54,7 @@ class DevicePage extends StatelessWidget {
                               context,
                               MaterialPageRoute(
                                 builder: (context) => HomePage(
-                                  selectedLogger: loggers.value[index],
+                                  loggerId: loggers.value[index].id,
                                 ),
                               ),
                             );
