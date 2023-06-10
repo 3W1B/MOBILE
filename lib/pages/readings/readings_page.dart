@@ -3,8 +3,8 @@ import 'dart:async';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter/material.dart';
 import 'package:radon_app/models/logger.dart';
-import 'package:radon_app/pages/home/map_widget.dart';
-import 'package:radon_app/pages/home/stats/graphs_widget.dart';
+import 'package:radon_app/pages/readings/map_widget.dart';
+import 'package:radon_app/pages/readings/graphs/graphs_widget.dart';
 import 'package:radon_app/repositories/logger_repository.dart';
 import 'package:radon_app/widgets/asap_text.dart';
 import 'package:radon_app/widgets/foo_appbar.dart';
@@ -55,7 +55,7 @@ class HomePage extends HookWidget {
             )
           )
         : Scaffold(
-            appBar: FooAppbar(context: context, title: loggerState.value!.id),
+            appBar: FooAppbar(context: context, title: 'Readings'),
             body: IndexedStack(
               index: bottomNavIndex.value,
               children: [

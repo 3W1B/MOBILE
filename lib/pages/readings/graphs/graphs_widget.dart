@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:radon_app/models/log.dart';
 import 'package:radon_app/models/logger.dart';
-import 'package:radon_app/pages/home/stats/humidity_graph.dart';
-import 'package:radon_app/pages/home/stats/radon_graph.dart';
-import 'package:radon_app/pages/home/stats/temperature_graph.dart';
+import 'package:radon_app/pages/readings/graphs/humidity_graph.dart';
+import 'package:radon_app/pages/readings/graphs/radon_graph.dart';
+import 'package:radon_app/pages/readings/graphs/temperature_graph.dart';
 import 'package:radon_app/utils/month_converter.dart';
 import 'package:radon_app/widgets/asap_text.dart';
 

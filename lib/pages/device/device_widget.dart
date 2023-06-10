@@ -3,6 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:radon_app/utils/json_file_manager.dart';
 import 'package:radon_app/widgets/asap_text.dart';
 import 'package:radon_app/widgets/foo_container.dart';
+import 'package:radon_app/widgets/popup.dart';
 
 import '../../models/logger.dart';
 
@@ -14,14 +15,37 @@ class DeviceWidget extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final deviceName = useState<String>(logger.id);
+
+    useEffect(() {
+      JsonFileManager.read(logger.id).then(
+        (value) {
+          if (value != null) {
+            deviceName.value = value;
+          }
+        },
+      );
+      return null;
+    }, []);
+
     return FooContainer(
-      title: logger.id,
+      title: deviceName.value,
       titleIcon: Icons.sensors,
       titleColor: Theme.of(context).colorScheme.onSurface,
       borderRadius: BorderRadius.circular(30),
       backgroundColor: Theme.of(context).colorScheme.surface,
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          if (logger.id != deviceName.value)
+              Padding(
+                padding: const EdgeInsets.only(left: 10),
+                child: AsapText(
+                  text: 'Device id: ${logger.id}',
+                  fontSize: 12,
+                  color: Theme.of(context).colorScheme.onSurface.withOpacity(0.5),
+                ),
+              ),
           Row(
             children: [
               Expanded(
@@ -32,16 +56,33 @@ class DeviceWidget extends HookWidget {
                     color: Theme.of(context).colorScheme.primary,
                     size: 30,
                   ),
-              ),),
+                ),
+              ),
               const SizedBox(width: 10),
               Expanded(
                 child: ElevatedButton(
-                  onPressed: () async {
-                    if (await JsonFileManager.read(logger.id) != null) {
-                      JsonFileManager.update({logger.id: "kakao"});
-                    } else {
-                      await JsonFileManager.create({logger.id: "kakao"});
-                    }
+                  onPressed: () {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return PopupHookWidget(
+                          onConfirm: (String enteredText) async {
+                            if (enteredText.isNotEmpty) {
+                              if (await JsonFileManager.read(logger.id) !=
+                                  null) {
+                                JsonFileManager.update(
+                                    {logger.id: enteredText});
+                              } else {
+                                await JsonFileManager.create(
+                                    {logger.id: enteredText});
+                              }
+                            }
+                            deviceName.value = enteredText;
+                          },
+                          title: 'Edit device name',
+                        );
+                      },
+                    );
                   },
                   child: Icon(
                     Icons.edit_rounded,
