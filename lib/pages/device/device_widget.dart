@@ -70,7 +70,7 @@ class DeviceWidget extends HookWidget {
                             if (enteredText.isNotEmpty) {
                               if (await JsonFileManager.read(logger.id) !=
                                   null) {
-                                JsonFileManager.update(
+                                await JsonFileManager.update(
                                     {logger.id: enteredText});
                               } else {
                                 await JsonFileManager.create(
