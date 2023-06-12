@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:radon_app/widgets/asap_text.dart';
 class FooAppbar extends AppBar {
-  FooAppbar({super.key, required BuildContext context, required String title})
+  FooAppbar({super.key, required BuildContext context, required String title, Function? onPressed})
       : super(
     title: AsapText(
       text: title,
@@ -11,7 +11,7 @@ class FooAppbar extends AppBar {
     ),
     leading: Navigator.canPop(context) ? IconButton(
       onPressed: () {
-        Navigator.pop(context);
+        onPressed != null ? onPressed() : Navigator.of(context).pop();
       },
       icon: const Icon(
         Icons.chevron_left_rounded,

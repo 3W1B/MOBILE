@@ -3,7 +3,6 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:radon_app/utils/json_file_manager.dart';
 import 'package:radon_app/widgets/asap_text.dart';
 import 'package:radon_app/widgets/foo_container.dart';
-import 'package:radon_app/widgets/popup.dart';
 
 import '../../models/logger.dart';
 
@@ -19,7 +18,7 @@ class DeviceWidget extends HookWidget {
 
     useEffect(() {
       JsonFileManager.read(logger.id).then(
-        (value) {
+            (value) {
           if (value != null) {
             deviceName.value = value;
           }
@@ -38,14 +37,14 @@ class DeviceWidget extends HookWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           if (logger.id != deviceName.value)
-              Padding(
-                padding: const EdgeInsets.only(left: 10),
-                child: AsapText(
-                  text: 'Device id: ${logger.id}',
-                  fontSize: 12,
-                  color: Theme.of(context).colorScheme.onSurface.withOpacity(0.5),
-                ),
+            Padding(
+              padding: const EdgeInsets.only(left: 10),
+              child: AsapText(
+                text: 'Device id: ${logger.id}',
+                fontSize: 12,
+                color: Theme.of(context).colorScheme.onSurface.withOpacity(0.5),
               ),
+            ),
           Row(
             children: [
               Expanded(
@@ -65,7 +64,7 @@ class DeviceWidget extends HookWidget {
                     showDialog(
                       context: context,
                       builder: (BuildContext context) {
-                        return PopupHookWidget(
+                        return DeviceNamePopup(
                           onConfirm: (String enteredText) async {
                             if (enteredText.isNotEmpty) {
                               if (await JsonFileManager.read(logger.id) !=
@@ -95,6 +94,40 @@ class DeviceWidget extends HookWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+class DeviceNamePopup extends HookWidget {
+  const DeviceNamePopup(
+      {super.key, required this.title, required this.onConfirm});
+
+  final String title;
+  final Function(String) onConfirm;
+
+  @override
+  Widget build(BuildContext context) {
+    final textEditingController = useTextEditingController();
+
+    return AlertDialog(
+      title: AsapText(text: title),
+      content: TextField(
+        controller: textEditingController,
+      ),
+      actionsAlignment: MainAxisAlignment.spaceBetween,
+      actions: [
+        ElevatedButton(
+          onPressed: () => Navigator.of(context).pop(),
+          child: const AsapText(text: 'Cancel'),
+        ),
+        ElevatedButton(
+          onPressed: () {
+            onConfirm(textEditingController.text);
+            Navigator.of(context).pop();
+          },
+          child: const AsapText(text: 'Confirm'),
+        ),
+      ],
     );
   }
 }

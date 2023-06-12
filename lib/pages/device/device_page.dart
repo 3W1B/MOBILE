@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:radon_app/pages/readings/readings_page.dart';
+import 'package:radon_app/utils/user_handler.dart';
 import 'package:radon_app/widgets/asap_text.dart';
 import 'package:radon_app/widgets/foo_appbar.dart';
 
@@ -38,32 +39,47 @@ class DevicePage extends StatelessWidget {
         final loggerPasswordController = useTextEditingController();
 
         return Scaffold(
-          appBar: FooAppbar(context: context, title: 'Devices'),
+          appBar: FooAppbar(
+              context: context,
+              title: 'Devices',
+              onPressed: () async {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext _) {
+                    return LogoutPopup(
+                      onConfirm: () async {
+                        await UserHandler.logout();
+                        Navigator.pop(context);
+                      },
+                    );
+                  },
+                );
+              }),
           body: Column(
             children: [
               if (loggers.value.isEmpty) ...[
                 const Text("No loggers found"),
               ] else ...[
-                  Expanded(
-                    child: ListView.builder(
-                      itemCount: loggers.value.length,
-                      itemBuilder: (context, index) {
-                        return DeviceWidget(
-                          logger: loggers.value[index],
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => HomePage(
-                                  loggerId: loggers.value[index].id,
-                                ),
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: loggers.value.length,
+                    itemBuilder: (context, index) {
+                      return DeviceWidget(
+                        logger: loggers.value[index],
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => HomePage(
+                                loggerId: loggers.value[index].id,
                               ),
-                            );
-                          },
-                        );
-                      },
-                    ),
+                            ),
+                          );
+                        },
+                      );
+                    },
                   ),
+                ),
               ],
               Padding(
                 padding: const EdgeInsets.all(12.0),
@@ -97,6 +113,38 @@ class DevicePage extends StatelessWidget {
           ),
         );
       },
+    );
+  }
+}
+
+class LogoutPopup extends HookWidget {
+  const LogoutPopup({super.key, required this.onConfirm});
+
+  final Function onConfirm;
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      content: const AsapText(
+        text: "This will log you out.\nAre you sure?",
+        fontSize: 20,
+      ),
+      actionsAlignment: MainAxisAlignment.spaceBetween,
+      actions: [
+        ElevatedButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          child: const AsapText(text: "No"),
+        ),
+        ElevatedButton(
+          onPressed: () {
+            Navigator.pop(context);
+            onConfirm();
+          },
+          child: const AsapText(text: "Yes"),
+        ),
+      ],
     );
   }
 }
